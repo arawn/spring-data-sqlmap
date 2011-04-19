@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:sqlmap="http://www.springframework.org/schema/data/sqlmap"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/data/sqlmap http://www.springframework.org/schema/data/sqlmap/spring-sqlmap-1.0.xsd">
+
+    <import resource="classpath:database-context.xml" />
+    
+    <bean id="testSqlMapClientTemplate" class="kr.arawn.springframework.data.sqlmap.repository.config.TestSqlMapClientTemplate">
+        <property name="sqlMapClient" ref="sqlMapClient" />
+    </bean>
+
+    <sqlmap:repositories sqlmap-executor-ref="testSqlMapClientTemplate"   
+                                base-package="kr.arawn.springframework.data.sqlmap.repository.sample" />
+
+</beans>

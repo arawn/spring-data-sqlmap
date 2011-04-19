@@ -1,0 +1,3 @@
+# Tooling related information for the Sqlmap namespace
+http\://www.springframework.org/schema/data/sqlmap@name=Sqlmap Namespace
+http\://www.springframework.org/schema/data/sqlmap@prefix=sqlmap

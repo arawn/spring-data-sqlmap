@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns="http://www.springframework.org/schema/data/sqlmap"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tool="http://www.springframework.org/schema/tool"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:repository="http://www.springframework.org/schema/data/repository"
+    targetNamespace="http://www.springframework.org/schema/data/sqlmap"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/tool" />
+    <xsd:import namespace="http://www.springframework.org/schema/context"
+        schemaLocation="http://www.springframework.org/schema/context/spring-context-3.0.xsd" />
+    <xsd:import namespace="http://www.springframework.org/schema/data/repository"
+        schemaLocation="http://www.springframework.org/schema/data/repository/spring-repository-1.0.xsd" />
+        
+    <xsd:complexType name="sqlmap-repository">
+        <xsd:complexContent>
+            <xsd:extension base="repository:repository">
+                <xsd:attributeGroup ref="repository:transactional-repository-attributes" />
+                <xsd:attribute name="sqlmap-executor-ref" type="SqlmapExecutorRef">
+                    <xsd:annotation>
+                        <xsd:documentation><![CDATA[ com.ibatis.sqlmap.client.SqlMapClient ]]></xsd:documentation>                    
+                    </xsd:annotation>
+                    </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>        
+
+    <xsd:element name="repositories">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="repository:repositories">
+                    <xsd:sequence>
+                        <xsd:element name="repository" minOccurs="0" maxOccurs="unbounded" type="sqlmap-repository" />
+                    </xsd:sequence>
+                    <xsd:attributeGroup ref="repository:transactional-repository-attributes" />
+                    <xsd:attribute name="sqlmap-executor-ref" type="SqlmapExecutorRef" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation><![CDATA[ com.ibatis.sqlmap.client.SqlMapClient ]]></xsd:documentation>                    
+                    </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="SqlmapExecutorRef">
+        <xsd:annotation>
+        <xsd:documentation><![CDATA[ SqlmapClient ]]></xsd:documentation>
+            <xsd:appinfo>
+                <tool:annotation kind="ref">
+                    <tool:assignable-to type="com.ibatis.sqlmap.client.SqlMapClient" />
+                </tool:annotation>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:union memberTypes="xsd:string" />
+    </xsd:simpleType>
+    
+</xsd:schema>

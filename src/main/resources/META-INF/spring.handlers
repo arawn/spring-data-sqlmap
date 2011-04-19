@@ -1,0 +1,1 @@
+http\://www.springframework.org/schema/data/sqlmap=kr.arawn.springframework.data.sqlmap.repository.config.SqlmapRepositoryNameSpaceHandler

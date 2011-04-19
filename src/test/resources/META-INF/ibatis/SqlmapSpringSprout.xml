@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="springSprout">
+
+    <typeAlias alias="Pageable" type="org.springframework.data.domain.Pageable"/>
+
+    <typeAlias alias="SpringSprout" type="kr.arawn.springframework.data.sqlmap.repository.sample.SpringSprout" />
+    <typeAlias alias="SpringSproutCondition" type="kr.arawn.springframework.data.sqlmap.repository.sample.SpringSproutCondition"/>
+
+    <insert id="insert" parameterClass="SpringSprout">
+        INSERT INTO SPRINGSPROUT(NAME, NICKNAME) VALUES(#name#, #nickName#);
+        <selectKey resultClass="Long" keyProperty="id">
+            CALL IDENTITY()
+        </selectKey>
+    </insert>
+    
+    <update id="update" parameterClass="SpringSprout">
+        ...
+    </update>
+    
+    <delete id="delete" parameterClass="long">
+        ...
+    </delete>
+    
+    <delete id="deleteAll">
+        ...
+    </delete>
+    
+    <select id="findOne" parameterClass="long" resultClass="SpringSprout">
+        SELECT * FROM SPRINGSPROUT WHERE ID = #id#
+    </select>
+    
+    <select id="findAll" resultClass="SpringSprout">
+        SELECT * FROM SPRINGSPROUT T
+    </select>    
+    
+    <select id="findAll_Sort" resultClass="SpringSprout" parameterClass="map">
+        SELECT * FROM SPRINGSPROUT T
+        <iterate property="orders" open="order by" close="" conjunction=", ">
+            $orders[].property$ $orders[].direction$
+        </iterate>
+    </select>
+    
+    <select id="findAll_Pageable" resultClass="SpringSprout" parameterClass="Pageable">
+        SELECT * FROM SPRINGSPROUT T LIMIT #pageSize# OFFSET #offset#
+    </select>
+    
+    <select id="count">
+        ...
+    </select>
+    
+    <select id="findByName" parameterClass="string" resultClass="SpringSprout">
+        SELECT * FROM SPRINGSPROUT WHERE NAME like #name# + '%'
+    </select>
+    
+    <select id="selectSpringSprout" resultClass="SpringSprout" parameterClass="SpringSproutCondition">
+        SELECT * FROM SPRINGSPROUT T
+        <isGreaterThan property="pageSize" compareValue="0">
+            LIMIT #pageSize# OFFSET #offset#
+        </isGreaterThan>        
+        <iterate property="orders" open="order by" close="" conjunction=", ">
+            $orders[].property$ $orders[].direction$
+        </iterate>
+    </select>    
+
+</sqlMap>
